@@ -15,16 +15,18 @@ def menuInit(co):
   global menu
   s = bge.logic.getCurrentScene()
   pos = 0
-  scale = 0.2
+  p = s.objects['Menu']
   for item in menu:
-    print(item.label)
-    #obj = bge.types.KX_GameObject(s)
-    obj = s.addObject('Empty', 'MenuLoc')
+    obj = s.addObject('MenuItem', p)
+    obj.setParent(p)
+    label = obj.groupMembers['Text']
+    cursor = obj.groupMembers['Cursor']
+    label.setParent(obj)
+    cursor.setParent(obj)
     obj.position[2] += pos
-    obj.scaling = [scale, scale, scale]
-    obj.children['Text'].text = item.label
-    item.display = obj.children['Cursor']
-    pos -= 1.25 * scale
+    label.text = item.label
+    item.display = cursor
+    pos -= 1.25 * p.scaling[2]
     #obj.replaceMesh('Cube.001')
 
 def menuStep(co):
